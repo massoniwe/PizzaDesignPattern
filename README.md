@@ -17,12 +17,14 @@ public interface Factory {
 public interface PizzaIngredientFactory {
     Dough createDough();
     Sauce createSauce();
-}'''
+}
+```
+
 2. Single Responsibility Principle (SRP) / Small, Focused Classes
 Principle: A class should have one, and only one, reason to change.
 
 In Code: Creation logic is completely separated from business logic. PizzaStore manages ordering and preparation, while PizzaIngredientFactory handles raw ingredient instantiation.
-'''java
+```java
 // BEFORE (God Object handling everything)
 public class Pizza {
     public void prepare() {
@@ -46,13 +48,14 @@ public class CheesePizza extends Pizza {
         dough = ingredientFactory.createDough();
         sauce = ingredientFactory.createSauce();
     }
-}'''
+}
+```
 
 3. Small Methods Doing One Thing
 Principle: Methods should be small and execute a single step of an algorithm.
 
 In Code: The orderPizza method handles the workflow steps cleanly, delegating creation to createPizza().
-'''java
+```java
 // BEFORE (Long method mixing steps)
 public Pizza orderPizza(String type) {
     Pizza pizza = null;
@@ -69,13 +72,14 @@ public Pizza orderPizza(String type) {
     pizza.cut();
     pizza.box();
     return pizza;
-}'''
+}
+```
 
 4. Dependency Inversion Principle (DIP) / Dependency Injection
 Principle: High-level modules should not depend on low-level modules. Both should depend on abstractions.
 
 In Code: Pizza subclasses depend on the abstract PizzaIngredientFactory interface passed via the constructor, rather than instantiating concrete ingredient classes directly using new.
-'''java
+```java
 // BEFORE (Tight coupling)
 public class NYCheesePizza extends Pizza {
     public void prepare() {
@@ -91,12 +95,13 @@ public abstract class Pizza {
     public Pizza(PizzaIngredientFactory ingredientFactory) {
         this.ingredientFactory = ingredientFactory;
     }
-}'''
+}
+```
 5. No Magic Strings / Magic Numbers
 Principle: Replace raw literals with named constants or structured types to prevent typos and ensure maintainability.
 
 In Code: Domain types and parameters use descriptive string variables/enums or specific methods instead of hardcoded magic values inside ingredient allocation logic.
-'''java
+```java
 // BEFORE (Magic Strings)
 if (style == 1) {
     // NY style
